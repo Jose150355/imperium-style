@@ -14,9 +14,7 @@ function Register() {
 
   const navigate = useNavigate()
 
-  const esEmailValido = (correo) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)
-  }
+  const esEmailValido = (correo) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)
 
   const registrar = async () => {
     if (!nombre || !email || !password || !confirmPassword) {
@@ -61,50 +59,92 @@ function Register() {
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Crear cuenta</h2>
+    <div style={{
+      backgroundColor: 'var(--color-principal)',
+      color: 'var(--color-secundario)',
+      minHeight: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '2rem'
+    }}>
+      <div style={{
+        backgroundColor: '#1a1a1a',
+        padding: '2rem',
+        borderRadius: '12px',
+        width: '100%',
+        maxWidth: '450px',
+        boxShadow: '0 0 20px rgba(255,255,255,0.05)'
+      }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>📝 Crear cuenta</h2>
 
-      <input
-        placeholder="Nombre completo"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
-      />
-      <br /><br />
+        <input
+          placeholder="Nombre completo"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          placeholder="Correo electrónico"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          type="password"
+          placeholder="Contraseña (mínimo 6 caracteres)"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={inputStyle}
+        />
+        <input
+          type="password"
+          placeholder="Confirmar contraseña"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          style={inputStyle}
+        />
 
-      <input
-        placeholder="Correo electrónico"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <br /><br />
+        <button
+          onClick={registrar}
+          disabled={cargando}
+          style={{
+            width: '100%',
+            padding: '0.8rem',
+            borderRadius: '8px',
+            backgroundColor: '#4caf50',
+            color: 'white',
+            border: 'none',
+            fontWeight: 'bold',
+            fontSize: '1rem',
+            marginTop: '1rem'
+          }}
+        >
+          {cargando ? 'Registrando...' : '✅ Registrarse'}
+        </button>
 
-      <input
-        type="password"
-        placeholder="Contraseña (mínimo 6 caracteres)"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br /><br />
-
-      <input
-        type="password"
-        placeholder="Confirmar contraseña"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      <br /><br />
-
-      <button onClick={registrar} disabled={cargando}>
-        {cargando ? 'Registrando...' : 'Registrarse'}
-      </button>
-
-      {mensaje && (
-        <p style={{ marginTop: '1rem', color: mensaje.includes('✅') ? 'green' : 'red' }}>
-          {mensaje}
-        </p>
-      )}
+        {mensaje && (
+          <p style={{
+            marginTop: '1rem',
+            color: mensaje.includes('✅') ? '#4caf50' : 'red',
+            textAlign: 'center'
+          }}>
+            {mensaje}
+          </p>
+        )}
+      </div>
     </div>
   )
+}
+
+const inputStyle = {
+  width: '100%',
+  padding: '0.7rem',
+  borderRadius: '8px',
+  border: '1px solid #888',
+  marginBottom: '1rem',
+  background: '#000',
+  color: 'white'
 }
 
 export default Register

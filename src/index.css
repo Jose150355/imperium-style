@@ -5,21 +5,32 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #000;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* 🎨 Colores oficiales */
+  --color-principal: #000; /* negro */
+  --color-secundario: #ddd; /* blanco grisáceo */
+  --color-acento: #f4c542; /* dorado */
+  --color-link: #6495ed;
+}
+
+/* ✨ Reset general */
+* {
+  box-sizing: border-box;
 }
 
 a {
   font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+  color: var(--color-link);
+  text-decoration: none;
 }
 a:hover {
-  color: #535bf2;
+  color: #84b4ff;
 }
 
 body {
@@ -28,6 +39,9 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--color-principal);
+  color: var(--color-secundario);
 }
 
 h1 {
@@ -47,22 +61,25 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #f4c542;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* 💡 Ignorar light-mode automático */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--color-secundario);
+    background-color: var(--color-principal);
   }
+
   a:hover {
-    color: #747bff;
+    color: #84b4ff;
   }
+
   button {
-    background-color: #f9f9f9;
+    background-color: #1a1a1a;
   }
 }

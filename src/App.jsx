@@ -1,5 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 import Home from './pages/Home'
 import Hombre from './pages/Hombre'
@@ -20,10 +22,16 @@ import SubirProducto from './pages/SubirProducto'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
-function App() {
+// Envoltura para usar `useLocation` fuera de Routes
+function AppWrapper() {
+  const location = useLocation()
+  const ocultarFooterEn = ['/login', '/register']
+  const mostrarFooter = !ocultarFooterEn.includes(location.pathname)
+
   return (
-    <Router>
+    <>
       <Navbar />
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/hombre" element={<Hombre />} />
@@ -45,6 +53,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+
+      {mostrarFooter && <Footer />}
+    </>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <AppWrapper />
     </Router>
   )
 }

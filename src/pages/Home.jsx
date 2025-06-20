@@ -43,7 +43,6 @@ function Home() {
       return
     }
 
-    // Validar si ya está apartado
     const q = query(collection(db, 'apartados'), where('uid', '==', user.uid), where('id', '==', producto.id))
     const snapshot = await getDocs(q)
     if (!snapshot.empty) {
@@ -60,24 +59,68 @@ function Home() {
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Todos los productos</h2>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
+    <div style={{ padding: '2rem', backgroundColor: 'var(--color-principal)', color: 'var(--color-secundario)' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>Todos los productos</h2>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center' }}>
         {productos.map(p => (
-          <div key={p.id} style={{ border: '1px solid #444', padding: '1rem', borderRadius: '10px', width: 250 }}>
-            <img src={p.fotos?.[0]} alt={p.title} style={{ width: '100%', height: 200, objectFit: 'cover', borderRadius: '8px' }} />
+          <div
+            key={p.id}
+            style={{
+              backgroundColor: '#111',
+              border: '1px solid #333',
+              padding: '1rem',
+              borderRadius: '12px',
+              width: 260,
+              textAlign: 'center',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+            }}
+          >
+            <img
+              src={p.fotos?.[0]}
+              alt={p.title}
+              style={{
+                width: '100%',
+                height: 200,
+                objectFit: 'cover',
+                borderRadius: '8px',
+                marginBottom: '0.5rem'
+              }}
+            />
             <h4>{p.title}</h4>
-            <p>{p.desc}</p>
-            <p><strong>${p.price}</strong></p>
+            <p style={{ fontSize: '0.9rem' }}>{p.desc}</p>
+            <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>${p.price}</p>
+
             {uidActual ? (
-              <button onClick={() => apartar(p)} style={{ marginTop: '0.5rem' }}>
+              <button
+                onClick={() => apartar(p)}
+                style={{
+                  marginTop: '0.5rem',
+                  backgroundColor: 'var(--color-acento)',
+                  color: '#000',
+                  border: 'none',
+                  padding: '0.4rem 1rem',
+                  borderRadius: '6px',
+                  cursor: 'pointer'
+                }}
+              >
                 ➕ Apartar
               </button>
             ) : (
-              <Link to="/login">Inicia sesión para apartar</Link>
+              <Link to="/login" style={{ color: 'var(--color-link)' }}>
+                Inicia sesión para apartar
+              </Link>
             )}
+
             {esAdmin && (
-              <Link to={`/admin/editar/${p.id}`} style={{ color: '#f4c542', marginTop: '0.5rem', display: 'block' }}>
+              <Link
+                to={`/admin/editar/${p.id}`}
+                style={{
+                  display: 'block',
+                  marginTop: '0.5rem',
+                  color: 'var(--color-acento)',
+                  fontSize: '0.9rem'
+                }}
+              >
                 ✏️ Editar
               </Link>
             )}

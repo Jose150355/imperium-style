@@ -61,7 +61,7 @@ function ConfirmarPedido() {
         metodoPago,
         estado: 'pendiente',
         fecha: serverTimestamp()
-      }) 
+      })
 
       localStorage.removeItem('productosSeleccionados')
       alert('✅ Pedido confirmado. ¡Gracias por tu compra!')
@@ -72,61 +72,64 @@ function ConfirmarPedido() {
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Confirmar pedido</h2>
+    <div style={{ padding: '2rem', backgroundColor: 'var(--color-principal)', color: 'var(--color-secundario)', minHeight: '100vh' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>🧾 Confirmar pedido</h2>
 
-      <h4>Tu orden:</h4>
-      <ul>
-        {productos.map(p => (
-          <li key={p.id}>
-            {p.title} – ${p.price}
-            <button
-              onClick={() => quitarProducto(p.id)}
-              style={{
-                background: '#f44336',
-                color: 'white',
-                border: 'none',
-                marginLeft: '1rem',
-                padding: '0.3rem 0.6rem',
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}
-            >
-              ❌ Eliminar
-            </button>
-          </li>
-        ))}
-      </ul>
+      <div style={{ maxWidth: 600, margin: '0 auto' }}>
+        <h4>🛍 Tu orden:</h4>
+        <ul style={{ paddingLeft: '1rem' }}>
+          {productos.map(p => (
+            <li key={p.id} style={{ marginBottom: '0.5rem' }}>
+              {p.title} – ${p.price}
+              <button
+                onClick={() => quitarProducto(p.id)}
+                style={{
+                  background: '#f44336',
+                  color: 'white',
+                  border: 'none',
+                  marginLeft: '1rem',
+                  padding: '0.3rem 0.6rem',
+                  borderRadius: '5px',
+                  cursor: 'pointer'
+                }}
+              >
+                ❌ Eliminar
+              </button>
+            </li>
+          ))}
+        </ul>
 
-      <h4>Datos de envío</h4>
-      <input placeholder="Nombre completo" value={nombre} onChange={e => setNombre(e.target.value)} /><br />
-      <input placeholder="Teléfono" value={telefono} onChange={e => setTelefono(e.target.value)} /><br />
-      <input placeholder="Dirección (calle, número)" value={direccion} onChange={e => setDireccion(e.target.value)} /><br />
-      <input placeholder="Ciudad" value={ciudad} onChange={e => setCiudad(e.target.value)} /><br />
-      <input placeholder="Estado" value={estado} onChange={e => setEstado(e.target.value)} /><br />
-      <input placeholder="Código Postal" value={postal} onChange={e => setPostal(e.target.value)} /><br />
-      <textarea placeholder="Referencias (opcional)" value={referencias} onChange={e => setReferencias(e.target.value)} /><br />
+        <h4 style={{ marginTop: '2rem' }}>📦 Datos de envío</h4>
+        <input placeholder="Nombre completo" value={nombre} onChange={e => setNombre(e.target.value)} /><br />
+        <input placeholder="Teléfono" value={telefono} onChange={e => setTelefono(e.target.value)} /><br />
+        <input placeholder="Dirección (calle, número)" value={direccion} onChange={e => setDireccion(e.target.value)} /><br />
+        <input placeholder="Ciudad" value={ciudad} onChange={e => setCiudad(e.target.value)} /><br />
+        <input placeholder="Estado" value={estado} onChange={e => setEstado(e.target.value)} /><br />
+        <input placeholder="Código Postal" value={postal} onChange={e => setPostal(e.target.value)} /><br />
+        <textarea placeholder="Referencias (opcional)" value={referencias} onChange={e => setReferencias(e.target.value)} /><br />
 
-      <h4>Método de pago:</h4>
-      <select value={metodoPago} onChange={e => setMetodoPago(e.target.value)}>
-        <option>Tarjeta de débito</option>
-        <option>Tarjeta de crédito</option>
-        <option>PayPal</option>
-      </select><br /><br />
+        <h4 style={{ marginTop: '2rem' }}>💳 Método de pago:</h4>
+        <select value={metodoPago} onChange={e => setMetodoPago(e.target.value)} style={{ padding: '0.5rem', marginBottom: '1.5rem' }}>
+          <option>Tarjeta de débito</option>
+          <option>Tarjeta de crédito</option>
+          <option>PayPal</option>
+        </select><br />
 
-      <button
-        onClick={confirmar}
-        style={{
-          backgroundColor: '#4caf50',
-          color: 'white',
-          padding: '0.8rem 1.5rem',
-          fontSize: '1rem',
-          border: 'none',
-          borderRadius: '5px'
-        }}
-      >
-        ✅ Confirmar pedido
-      </button>
+        <button
+          onClick={confirmar}
+          style={{
+            backgroundColor: '#4caf50',
+            color: 'white',
+            padding: '0.8rem 1.5rem',
+            fontSize: '1rem',
+            border: 'none',
+            borderRadius: '5px',
+            width: '100%'
+          }}
+        >
+          ✅ Confirmar pedido
+        </button>
+      </div>
     </div>
   )
 }

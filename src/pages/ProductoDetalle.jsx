@@ -22,7 +22,7 @@ function ProductoDetalle() {
   const apartar = async () => {
     const user = auth.currentUser
     if (!user) {
-      setMensaje('Inicia sesión para apartar')
+      setMensaje('❌ Inicia sesión para apartar el producto')
       return
     }
 
@@ -40,23 +40,65 @@ function ProductoDetalle() {
     }
   }
 
-  if (!producto) return <p style={{ padding: '2rem' }}>Cargando producto...</p>
+  if (!producto) return <p style={{ padding: '2rem', color: 'white' }}>⏳ Cargando producto...</p>
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>{producto.title}</h2>
-      <p>{producto.desc}</p>
-      <p><strong>${producto.price}</strong></p>
+    <div style={{
+      padding: '2rem',
+      backgroundColor: 'var(--color-principal)',
+      color: 'var(--color-secundario)',
+      minHeight: '100vh'
+    }}>
+      <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{producto.title}</h2>
+      <p style={{ marginBottom: '1rem', lineHeight: '1.6' }}>{producto.desc}</p>
+      <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>${producto.price}</p>
 
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+      <div style={{
+        display: 'flex',
+        gap: '1rem',
+        flexWrap: 'wrap',
+        margin: '1.5rem 0'
+      }}>
         {producto.fotos.map((f, i) => (
-          <img key={i} src={f} alt={`Foto ${i}`} style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
+          <img
+            key={i}
+            src={f}
+            alt={`Foto ${i + 1}`}
+            style={{
+              width: '200px',
+              height: '200px',
+              objectFit: 'cover',
+              borderRadius: '10px',
+              border: '2px solid #444'
+            }}
+          />
         ))}
       </div>
 
-      <br />
-      <button onClick={apartar}>Apartar</button>
-      {mensaje && <p style={{ marginTop: '1rem', color: 'green' }}>{mensaje}</p>}
+      <button
+        onClick={apartar}
+        style={{
+          backgroundColor: '#4caf50',
+          color: 'white',
+          padding: '0.8rem 1.5rem',
+          border: 'none',
+          borderRadius: '6px',
+          fontSize: '1rem',
+          fontWeight: 'bold',
+          cursor: 'pointer'
+        }}
+      >
+        📌 Apartar
+      </button>
+
+      {mensaje && (
+        <p style={{
+          marginTop: '1.5rem',
+          color: mensaje.includes('✅') ? 'lightgreen' : 'red'
+        }}>
+          {mensaje}
+        </p>
+      )}
     </div>
   )
 }

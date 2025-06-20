@@ -33,19 +33,25 @@ function PedidosAdmin() {
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>🛠️ Admin - Gestión de Pedidos</h2>
+    <div style={{
+      padding: '2rem',
+      backgroundColor: 'var(--color-principal)',
+      minHeight: '100vh',
+      color: 'var(--color-secundario)'
+    }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>🛠️ Admin – Gestión de Pedidos</h2>
 
-      {pedidos.length === 0 && <p>No hay pedidos registrados.</p>}
+      {pedidos.length === 0 && <p style={{ textAlign: 'center' }}>No hay pedidos registrados.</p>}
 
       {pedidos.map((p) => (
         <div
           key={p.id}
           style={{
-            background: 'black',
-            padding: '1rem',
-            marginBottom: '2rem',
-            borderRadius: '10px',
+            background: '#1a1a1a',
+            padding: '1.5rem',
+            borderRadius: '12px',
+            boxShadow: '0 0 12px rgba(255,255,255,0.08)',
+            marginBottom: '2rem'
           }}
         >
           <p><strong>📅 Fecha:</strong> {p.fecha?.seconds ? new Date(p.fecha.seconds * 1000).toLocaleString() : 'Sin fecha'}</p>
@@ -70,39 +76,40 @@ function PedidosAdmin() {
             )}
           </ul>
 
-          <p><strong>⚙️ Estado:</strong>
+          <div style={{ marginTop: '1rem' }}>
+            <p><strong>⚙️ Estado:</strong></p>
             <select
               value={p.estado || 'pendiente'}
               onChange={(e) => actualizarEstado(p.id, e.target.value)}
-              style={{ marginLeft: '0.5rem' }}
+              style={selectStyle}
             >
               <option value="pendiente">Pendiente</option>
               <option value="aceptado">Aceptado</option>
               <option value="enviado">Enviado</option>
               <option value="cancelado">Cancelado</option>
             </select>
-          </p>
+          </div>
 
           {(p.estado === 'aceptado' || p.estado === 'enviado') && (
-            <>
-              <p><strong>🚚 Paquetería:</strong></p>
+            <div style={{ marginTop: '1rem' }}>
+              <label><strong>🚚 Paquetería:</strong></label>
               <input
                 type="text"
                 placeholder="Ej. DHL, FedEx..."
                 value={p.paqueteria || ''}
                 onChange={(e) => actualizarCampo(p.id, 'paqueteria', e.target.value)}
-                style={{ width: '100%', marginBottom: '0.5rem' }}
+                style={inputStyle}
               />
 
-              <p><strong>📄 Número de guía:</strong></p>
+              <label><strong>📄 Número de guía:</strong></label>
               <input
                 type="text"
                 placeholder="Ej. 123456789"
                 value={p.guia || ''}
                 onChange={(e) => actualizarCampo(p.id, 'guia', e.target.value)}
-                style={{ width: '100%' }}
+                style={inputStyle}
               />
-            </>
+            </div>
           )}
 
           <button
@@ -111,9 +118,10 @@ function PedidosAdmin() {
               marginTop: '1rem',
               backgroundColor: '#f44336',
               color: 'white',
-              padding: '0.5rem 1rem',
+              padding: '0.7rem 1.2rem',
               border: 'none',
-              borderRadius: '5px',
+              borderRadius: '6px',
+              fontWeight: 'bold',
               cursor: 'pointer'
             }}
           >
@@ -123,6 +131,25 @@ function PedidosAdmin() {
       ))}
     </div>
   )
+}
+
+const inputStyle = {
+  width: '100%',
+  padding: '0.6rem',
+  marginBottom: '0.8rem',
+  borderRadius: '6px',
+  border: '1px solid #555',
+  background: '#000',
+  color: 'white'
+}
+
+const selectStyle = {
+  width: '100%',
+  padding: '0.6rem',
+  borderRadius: '6px',
+  border: '1px solid #555',
+  background: '#000',
+  color: 'white'
 }
 
 export default PedidosAdmin

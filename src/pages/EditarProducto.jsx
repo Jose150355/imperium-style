@@ -1,4 +1,3 @@
-// src/pages/EditarProducto.jsx
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
@@ -71,42 +70,89 @@ function EditarProducto() {
   }
 
   if (!esAdmin) {
-    return <p style={{ padding: '2rem' }}>🚫 No tienes permiso para ver esta página</p>
+    return <p style={{ padding: '2rem', color: 'white' }}>🚫 No tienes permiso para ver esta página</p>
   }
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Editar producto</h2>
-      <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Nombre del producto" />
-      <br /><br />
-      <textarea value={desc} onChange={e => setDesc(e.target.value)} placeholder="Descripción" />
-      <br /><br />
-      <input value={price} onChange={e => setPrice(e.target.value)} type="number" placeholder="Precio" />
-      <br /><br />
-      <select value={categoria} onChange={e => setCategoria(e.target.value)}>
-        <option value="hombre">Hombre</option>
-        <option value="mujer">Mujer</option>
-        <option value="rebajas">Rebajas</option>
-      </select>
-      <br /><br />
-      <h4>Fotos (URLs de imagen):</h4>
-      {fotos.map((foto, i) => (
-        <div key={i}>
-          <input
-            value={foto}
-            onChange={e => handleFotoChange(i, e.target.value)}
-            placeholder={`Foto ${i + 1}`}
-            style={{ width: '80%' }}
-          />
-          {i === fotos.length - 1 && (
-            <button onClick={() => setFotos([...fotos, ''])}>➕</button>
-          )}
-        </div>
-      ))}
-      <br />
-      <button onClick={actualizarProducto}>Guardar cambios</button>
+    <div style={{ padding: '2rem', backgroundColor: 'var(--color-principal)', color: 'var(--color-secundario)', minHeight: '100vh' }}>
+      <h2 style={{ textAlign: 'center' }}>✏️ Editar producto</h2>
 
-      {mensaje && <p style={{ marginTop: '1rem', color: 'green' }}>{mensaje}</p>}
+      <div style={{ maxWidth: 600, margin: '0 auto' }}>
+        <input
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+          placeholder="Nombre del producto"
+          style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc', marginTop: '1rem' }}
+        />
+        <textarea
+          value={desc}
+          onChange={e => setDesc(e.target.value)}
+          placeholder="Descripción"
+          style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc', marginTop: '1rem' }}
+        />
+        <input
+          value={price}
+          onChange={e => setPrice(e.target.value)}
+          type="number"
+          placeholder="Precio"
+          style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc', marginTop: '1rem' }}
+        />
+
+        <select
+          value={categoria}
+          onChange={e => setCategoria(e.target.value)}
+          style={{ width: '100%', padding: '0.5rem', borderRadius: '8px', marginTop: '1rem' }}
+        >
+          <option value="hombre">Hombre</option>
+          <option value="mujer">Mujer</option>
+          <option value="rebajas">Rebajas</option>
+        </select>
+
+        <h4 style={{ marginTop: '2rem' }}>🖼 Fotos (URLs):</h4>
+        {fotos.map((foto, i) => (
+          <div key={i} style={{ marginBottom: '1rem' }}>
+            <input
+              value={foto}
+              onChange={e => handleFotoChange(i, e.target.value)}
+              placeholder={`Foto ${i + 1}`}
+              style={{ width: '85%', padding: '0.5rem', borderRadius: '8px', border: '1px solid #ccc' }}
+            />
+            {i === fotos.length - 1 && (
+              <button
+                onClick={() => setFotos([...fotos, ''])}
+                style={{
+                  marginLeft: '0.5rem',
+                  padding: '0.5rem',
+                  borderRadius: '5px',
+                  border: 'none',
+                  backgroundColor: '#2196f3',
+                  color: 'white'
+                }}
+              >
+                ➕
+              </button>
+            )}
+          </div>
+        ))}
+
+        <button
+          onClick={actualizarProducto}
+          style={{
+            backgroundColor: '#4caf50',
+            color: 'white',
+            border: 'none',
+            padding: '0.8rem 1.5rem',
+            borderRadius: '5px',
+            marginTop: '2rem',
+            width: '100%',
+            fontSize: '1rem'
+          }}
+        >
+          💾 Guardar cambios
+        </button>
+
+        {mensaje && <p style={{ marginTop: '1rem', color: '#4caf50' }}>{mensaje}</p>}
+      </div>
     </div>
   )
 }

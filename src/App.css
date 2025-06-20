@@ -3,8 +3,13 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  /* Variables heredadas (útil si se usa en componentes dentro del root) */
+  --color-principal: #000000;
+  --color-secundario: #ddd;
 }
 
+/* Logo animado (opcional si usas logo giratorio tipo React) */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -12,12 +17,13 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #f4c542aa); /* Acento dorado */
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em #f4c542aa);
 }
 
+/* Animación opcional para girar el logo */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -26,17 +32,24 @@
     transform: rotate(360deg);
   }
 }
-
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
+/* Tarjeta general */
 .card {
   padding: 2em;
+  background-color: #111;
+  color: var(--color-secundario);
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+  margin: 1rem 0;
 }
 
+/* Texto informativo */
 .read-the-docs {
-  color: #888;
+  color: #aaa;
+  font-size: 0.9rem;
 }

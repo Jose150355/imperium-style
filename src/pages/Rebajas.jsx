@@ -63,31 +63,104 @@ function Rebajas() {
     .sort((a, b) => orden === 'asc' ? a.price - b.price : b.price - a.price)
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2>Productos en Rebajas</h2>
-      <input placeholder="Buscar por nombre" value={busqueda} onChange={e => setBusqueda(e.target.value)} />
-      <input placeholder="Precio mínimo" type="number" value={precioMin} onChange={e => setPrecioMin(e.target.value)} />
-      <input placeholder="Precio máximo" type="number" value={precioMax} onChange={e => setPrecioMax(e.target.value)} />
-      <select value={orden} onChange={e => setOrden(e.target.value)}>
-        <option value="asc">Precio: menor a mayor</option>
-        <option value="desc">Precio: mayor a menor</option>
-      </select>
+    <div style={{ padding: '2rem', backgroundColor: 'var(--color-principal)', color: 'var(--color-secundario)' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Productos en Rebajas</h2>
 
-      <div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', marginBottom: '2rem' }}>
+        <input
+          placeholder="Buscar por nombre"
+          value={busqueda}
+          onChange={e => setBusqueda(e.target.value)}
+          style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #444', background: '#111', color: '#ddd' }}
+        />
+        <input
+          placeholder="Precio mínimo"
+          type="number"
+          value={precioMin}
+          onChange={e => setPrecioMin(e.target.value)}
+          style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #444', background: '#111', color: '#ddd' }}
+        />
+        <input
+          placeholder="Precio máximo"
+          type="number"
+          value={precioMax}
+          onChange={e => setPrecioMax(e.target.value)}
+          style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid #444', background: '#111', color: '#ddd' }}
+        />
+        <select
+          value={orden}
+          onChange={e => setOrden(e.target.value)}
+          style={{ padding: '0.5rem', borderRadius: '6px', background: '#111', color: '#ddd', border: '1px solid #444' }}
+        >
+          <option value="asc">Precio: menor a mayor</option>
+          <option value="desc">Precio: mayor a menor</option>
+        </select>
+      </div>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem' }}>
         {filtrados.map(p => (
-          <div key={p.id} style={{ border: '1px solid #444', padding: '1rem', margin: '1rem', maxWidth: 300 }}>
-            <img src={p.fotos?.[0]} alt={p.title} width="100%" />
+          <div
+            key={p.id}
+            style={{
+              backgroundColor: '#111',
+              border: '1px solid #333',
+              padding: '1rem',
+              borderRadius: '12px',
+              width: 260,
+              textAlign: 'center',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
+            }}
+          >
+            <img
+              src={p.fotos?.[0]}
+              alt={p.title}
+              style={{ width: '100%', height: 200, objectFit: 'cover', borderRadius: '8px', marginBottom: '0.5rem' }}
+            />
             <h4>{p.title}</h4>
-            <p>{p.desc}</p>
-            <p><strong>${p.price}</strong></p>
-            <button onClick={() => apartar(p)}>Apartar</button>
+            <p style={{ fontSize: '0.9rem' }}>{p.desc}</p>
+            <p style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>${p.price}</p>
+
+            <button
+              onClick={() => apartar(p)}
+              style={{
+                marginTop: '0.5rem',
+                backgroundColor: 'var(--color-acento)',
+                color: '#000',
+                border: 'none',
+                padding: '0.4rem 1rem',
+                borderRadius: '6px',
+                cursor: 'pointer'
+              }}
+            >
+              ➕ Apartar
+            </button>
+
             {esAdmin && (
               <>
-                <Link to={`/admin/editar/${p.id}`} style={{ color: '#f4c542', marginTop: '0.5rem', display: 'inline-block' }}>
+                <Link
+                  to={`/admin/editar/${p.id}`}
+                  style={{
+                    color: 'var(--color-acento)',
+                    display: 'inline-block',
+                    marginTop: '0.5rem',
+                    fontSize: '0.9rem'
+                  }}
+                >
                   ✏️ Editar
                 </Link>
                 <br />
-                <button onClick={() => eliminarProducto(p.id)} style={{ marginTop: '0.5rem', background: 'red', color: 'white' }}>
+                <button
+                  onClick={() => eliminarProducto(p.id)}
+                  style={{
+                    marginTop: '0.5rem',
+                    background: '#b22222',
+                    color: 'white',
+                    border: 'none',
+                    padding: '0.4rem 1rem',
+                    borderRadius: '6px',
+                    cursor: 'pointer'
+                  }}
+                >
                   🗑️ Eliminar
                 </button>
               </>

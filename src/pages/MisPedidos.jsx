@@ -21,30 +21,46 @@ function MisPedidos() {
   }, [])
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2 style={{ color: 'white' }}>Mis pedidos</h2>
-      {pedidos.map(p => (
-        <div key={p.id} style={{ backgroundColor: 'white', padding: '1rem', marginBottom: '1rem', borderRadius: '10px' }}>
-          <p style={{ color: '#000' }}>
-            <strong>📅 Fecha:</strong>{' '}
-            {p.fecha?.toDate ? p.fecha.toDate().toLocaleString() : 'Sin fecha'}
-          </p>
-          <p style={{ color: '#000' }}><strong>⏳ Estado:</strong> {p.estado || 'Pendiente'}</p>
-          <p style={{ color: '#000' }}><strong>💳 Método de pago:</strong> {p.metodoPago || 'No especificado'}</p>
-          <p style={{ color: '#000' }}><strong>🛍 Productos:</strong></p>
-          <ul>
-            {p.productos?.map((prod, index) => (
-              <li key={index} style={{ color: '#000' }}>{prod.title} – ${prod.price}</li>
-            ))}
-          </ul>
-          {p.estado === 'enviado' && (
-            <>
-              <p style={{ color: '#000' }}><strong>🚚 Paquetería:</strong> {p.paqueteria || 'No especificada'}</p>
-              <p style={{ color: '#000' }}><strong>📄 Número de guía:</strong> {p.guia || 'No disponible'}</p>
-            </>
-          )}
-        </div>
-      ))}
+    <div style={{ padding: '2rem', backgroundColor: 'var(--color-principal)', minHeight: '100vh' }}>
+      <h2 style={{ color: 'var(--color-secundario)', textAlign: 'center' }}>Mis pedidos</h2>
+
+      {pedidos.length === 0 ? (
+        <p style={{ color: 'var(--color-secundario)', textAlign: 'center', marginTop: '2rem' }}>
+          No tienes pedidos registrados aún.
+        </p>
+      ) : (
+        pedidos.map(p => (
+          <div
+            key={p.id}
+            style={{
+              backgroundColor: '#fff',
+              color: '#000',
+              padding: '1.5rem',
+              marginBottom: '1.5rem',
+              borderRadius: '12px',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+              maxWidth: 600,
+              margin: '1.5rem auto'
+            }}
+          >
+            <p><strong>📅 Fecha:</strong> {p.fecha?.toDate ? p.fecha.toDate().toLocaleString() : 'Sin fecha'}</p>
+            <p><strong>⏳ Estado:</strong> {p.estado || 'Pendiente'}</p>
+            <p><strong>💳 Método de pago:</strong> {p.metodoPago || 'No especificado'}</p>
+            <p><strong>🛍 Productos:</strong></p>
+            <ul style={{ paddingLeft: '1rem' }}>
+              {p.productos?.map((prod, index) => (
+                <li key={index}>{prod.title} – ${prod.price}</li>
+              ))}
+            </ul>
+            {p.estado === 'enviado' && (
+              <>
+                <p><strong>🚚 Paquetería:</strong> {p.paqueteria || 'No especificada'}</p>
+                <p><strong>📄 Número de guía:</strong> {p.guia || 'No disponible'}</p>
+              </>
+            )}
+          </div>
+        ))
+      )}
     </div>
   )
 }
