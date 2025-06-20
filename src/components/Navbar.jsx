@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { auth } from '../firebase'
 
 function Navbar() {
   const [usuario, setUsuario] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -16,7 +17,7 @@ function Navbar() {
     await auth.signOut()
     localStorage.clear()
     setUsuario(null)
-    window.location.reload()
+    navigate('/') // Redirige a inicio
   }
 
   const esAdmin = usuario?.email === 'gustavoraygadas10@gmail.com'
@@ -46,7 +47,17 @@ function Navbar() {
       {usuario && (
         <>
           <Link to="/perfil">Mi perfil</Link>
-          <button onClick={cerrarSesion} style={{ backgroundColor: '#f44336', color: 'white', border: 'none', padding: '0.3rem 0.7rem', cursor: 'pointer', borderRadius: '4px' }}>
+          <button
+            onClick={cerrarSesion}
+            style={{
+              backgroundColor: '#f44336',
+              color: 'white',
+              border: 'none',
+              padding: '0.3rem 0.7rem',
+              cursor: 'pointer',
+              borderRadius: '4px'
+            }}
+          >
             🔒 Cerrar sesión
           </button>
         </>

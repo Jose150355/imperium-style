@@ -10,6 +10,7 @@ import ConfirmarPedido from './pages/ConfirmarPedido'
 import MisPedidos from './pages/MisPedidos'
 import Profile from './pages/Profile'
 import EditarProducto from './pages/EditarProducto'
+import RutaPrivada from './components/RutaPrivada'
 
 // Admin
 import PedidosAdmin from './pages/PedidosAdmin'
@@ -28,17 +29,19 @@ function App() {
         <Route path="/hombre" element={<Hombre />} />
         <Route path="/mujer" element={<Mujer />} />
         <Route path="/rebajas" element={<Rebajas />} />
-        <Route path="/mis-apartados" element={<MisApartados />} />
-        <Route path="/confirmar-pedido" element={<ConfirmarPedido />} />
-        <Route path="/mis-pedidos" element={<MisPedidos />} />
-        <Route path="/perfil" element={<Profile />} />
-        <Route path="/admin/editar/:id" element={<EditarProducto />} />
 
-        {/* Rutas de administrador */}
-        <Route path="/admin/pedidos" element={<PedidosAdmin />} />
-        <Route path="/admin/subir" element={<SubirProducto />} />
+        {/* Rutas protegidas */}
+        <Route path="/mis-apartados" element={<RutaPrivada><MisApartados /></RutaPrivada>} />
+        <Route path="/confirmar-pedido" element={<RutaPrivada><ConfirmarPedido /></RutaPrivada>} />
+        <Route path="/mis-pedidos" element={<RutaPrivada><MisPedidos /></RutaPrivada>} />
+        <Route path="/perfil" element={<RutaPrivada><Profile /></RutaPrivada>} />
 
-        {/* Rutas de autenticación */}
+        {/* Admin */}
+        <Route path="/admin/editar/:id" element={<RutaPrivada><EditarProducto /></RutaPrivada>} />
+        <Route path="/admin/pedidos" element={<RutaPrivada><PedidosAdmin /></RutaPrivada>} />
+        <Route path="/admin/subir" element={<RutaPrivada><SubirProducto /></RutaPrivada>} />
+
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
