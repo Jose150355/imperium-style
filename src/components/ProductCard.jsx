@@ -16,9 +16,10 @@ function ProductCard({ title, description, price, imageUrl }) {
         title,
         description,
         price,
-        imageUrl,
+        fotos: [imageUrl], // 👈 lo importante: array llamado 'fotos'
         createdAt: new Date()
-      })
+    })
+
       alert('✅ Producto apartado exitosamente')
     } catch (err) {
       alert('❌ Error al apartar: ' + err.message)
