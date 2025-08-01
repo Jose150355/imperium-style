@@ -21,10 +21,10 @@ function ProductosPorCategoria({ categoria }) {
         const snapshot = await getDocs(collection(db, 'productos'))
         const productosFiltrados = snapshot.docs
           .map(doc => ({ id: doc.id, ...doc.data() }))
-          .filter(p => p.categoria?.toLowerCase() === categoria.toLowerCase())
+          .filter(p => p.categoria === categoria)
         setProductos(productosFiltrados)
       } catch (error) {
-        console.error('Error obteniendo productos:', error)
+        console.error('Error al obtener productos:', error)
       }
     }
 
@@ -61,7 +61,7 @@ function ProductosPorCategoria({ categoria }) {
               }}
             >
               <img
-                src={producto.fotos?.[0] || 'https://via.placeholder.com/200'}
+                src={producto.fotos[0]}
                 alt={producto.title}
                 style={{
                   width: '100%',
