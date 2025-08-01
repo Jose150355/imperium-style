@@ -1,7 +1,6 @@
-// src/components/ProductosPorCategoria.jsx
 import { useEffect, useState } from 'react'
 import { db, auth } from '../firebase'
-import { collection, getDocs, addDoc } from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { Link } from 'react-router-dom'
 
 function ProductosPorCategoria({ categoria }) {
@@ -18,35 +17,19 @@ function ProductosPorCategoria({ categoria }) {
 
   useEffect(() => {
     const obtenerProductos = async () => {
-      const snapshot = await getDocs(collection(db, 'productos'))
-      const productosFiltrados = snapshot.docs
-        .map(doc => ({ id: doc.id, ...doc.data() }))
-        .filter(p => p.categoria === categoria)
-      setProductos(productosFiltrados)
+      try {
+        const snapshot = await getDocs(collection(db, 'productos'))
+        const productosFiltrados = snapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(p => p.categoria?.toLowerCase() === categoria.toLowerCase())
+        setProductos(productosFiltrados)
+      } catch (error) {
+        console.error('Error obteniendo productos:', error)
+      }
     }
 
     obtenerProductos()
   }, [categoria])
-
-  const apartarProducto = async (producto) => {
-    if (!user) {
-      alert('Debes iniciar sesión para apartar.')
-      return
-    }
-
-    try {
-      await addDoc(collection(db, 'apartados'), {
-        uid: user.uid,
-        title: producto.title,
-        price: producto.price,
-        fotos: producto.fotos,
-        fecha: new Date()
-      })
-      alert('✅ Producto apartado con éxito')
-    } catch (e) {
-      alert('❌ Error al apartar: ' + e.message)
-    }
-  }
 
   return (
     <div style={{ padding: '2rem', backgroundColor: '#000', minHeight: '100vh' }}>
@@ -78,7 +61,7 @@ function ProductosPorCategoria({ categoria }) {
               }}
             >
               <img
-                src={producto.fotos?.[0]}
+                src={producto.fotos?.[0] || 'https://via.placeholder.com/200'}
                 alt={producto.title}
                 style={{
                   width: '100%',
@@ -93,18 +76,15 @@ function ProductosPorCategoria({ categoria }) {
               <p style={{ fontWeight: 'bold', fontSize: '1rem', margin: '0.5rem 0' }}>${producto.price}</p>
 
               {user ? (
-                <button
-                  style={{
-                    backgroundColor: '#f4c542',
-                    color: '#000',
-                    padding: '0.5rem 1rem',
-                    border: 'none',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    marginTop: '0.5rem'
-                  }}
-                  onClick={() => apartarProducto(producto)}
-                >
+                <button style={{
+                  backgroundColor: '#f4c542',
+                  color: '#000',
+                  padding: '0.5rem 1rem',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  marginTop: '0.5rem'
+                }}>
                   Apartar
                 </button>
               ) : (
