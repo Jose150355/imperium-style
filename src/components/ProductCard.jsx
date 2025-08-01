@@ -1,6 +1,6 @@
 // src/components/ProductCard.jsx
 import { auth, db } from '../firebase'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 
 function ProductCard({ title, description, price, imageUrl }) {
   const handleApartar = async () => {
@@ -10,16 +10,27 @@ function ProductCard({ title, description, price, imageUrl }) {
       return
     }
 
+    // Verificar si ya está apartado
+    const q = query(
+      collection(db, 'apartados'),
+      where('uid', '==', user.uid),
+      where('title', '==', title)
+    )
+    const snapshot = await getDocs(q)
+    if (!snapshot.empty) {
+      alert('Este producto ya está en tus apartados')
+      return
+    }
+
+    // Guardar producto con el formato correcto
     try {
       await addDoc(collection(db, 'apartados'), {
         uid: user.uid,
         title,
-        description,
         price,
-        fotos: [imageUrl], // 👈 lo importante: array llamado 'fotos'
+        fotos: [imageUrl], // campo corregido
         createdAt: new Date()
-    })
-
+      })
       alert('✅ Producto apartado exitosamente')
     } catch (err) {
       alert('❌ Error al apartar: ' + err.message)

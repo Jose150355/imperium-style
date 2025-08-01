@@ -1,3 +1,4 @@
+// src/pages/MisApartados.jsx
 import { useEffect, useState } from 'react'
 import { auth, db } from '../firebase'
 import {
@@ -6,8 +7,7 @@ import {
   deleteDoc,
   doc,
   query,
-  where,
-  addDoc
+  where
 } from 'firebase/firestore'
 import { useNavigate } from 'react-router-dom'
 
@@ -32,29 +32,15 @@ function MisApartados() {
   const procederAlPedido = async () => {
     if (!usuario || productos.length === 0) return
 
-    try {
-      // Guardar pedido en Firebase
-      await addDoc(collection(db, 'pedidos'), {
-        uid: usuario.uid,
-        email: usuario.email,
-        productos,
-        fecha: new Date()
-      })
+    localStorage.setItem('productosSeleccionados', JSON.stringify(productos))
 
-      // Eliminar productos apartados
-      const q = query(collection(db, 'apartados'), where('uid', '==', usuario.uid))
-      const snapshot = await getDocs(q)
-      const batch = snapshot.docs.map(docSnap =>
-        deleteDoc(doc(db, 'apartados', docSnap.id))
-      )
-      await Promise.all(batch)
+    const q = query(collection(db, 'apartados'), where('uid', '==', usuario.uid))
+    const snapshot = await getDocs(q)
+    const batch = snapshot.docs.map(docSnap => deleteDoc(doc(db, 'apartados', docSnap.id)))
+    await Promise.all(batch)
 
-      setProductos([])
-      navigate('/confirmar')
-    } catch (error) {
-      console.error('Error al confirmar el pedido:', error)
-      alert('Ocurrió un error al confirmar tu pedido.')
-    }
+    setProductos([])
+    navigate('/confirmar')
   }
 
   useEffect(() => {
